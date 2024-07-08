@@ -17,6 +17,9 @@ export const Navbar: FC<Props> = () => {
     const handleSearchInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         const { value } = e.target;
         setSearchText(value);
+        if(value.length <= 0){
+            window.location.reload();
+        }
     };
     const handleSearchClick = async () =>{
         searchedText(searchText);

@@ -29,7 +29,7 @@ export const NotesList: FC<Props> = ({
     onUpdate,
 }) => {
     const {userId, searchedTitle} = useAuth();
-    // const {searchedNote, setSearchedNote} = useState(null);
+    const [searchedNote, setSearchedNote] = useState<Note | null>(null);
     const [selectedNote, setSelectedNote] = useState<Note | null>(null);
     const [addNote, setAddNote] = useState(false);
     const [showBackgrounds,setShowBackgrounds] = useState<boolean>(false);
@@ -53,25 +53,25 @@ export const NotesList: FC<Props> = ({
         });
     };
 
-    const handleSearchedNote = async () =>{
-        console.log(searchedTitle)
-        try {
-            const response = await fetch(`https://note-keeper-7bu3.onrender.com/api/notes/searchByTitle/${userId}/${searchedTitle}`, {
-                method: "GET",
-            });
-    
-            if (response.ok) {
-                const notes = await response.json()
-                // setSearchedNote(notes)
-                console.log("searched note ::::===",notes);
-            }
-        } catch (err) {
-            console.error("Error note fatching:", err);
-        }
-    }
     useEffect(()=>{
+        const handleSearchedNote = async () =>{
+            console.log(searchedTitle)
+            try {
+                const response = await fetch(`https://note-keeper-7bu3.onrender.com/api/notes/searchByTitle/${userId}/${searchedTitle}`, {
+                    method: "GET",
+                });
+        
+                if (response.ok) {
+                    const notes = await response.json()
+                    setSearchedNote(notes)
+                }
+            } catch (err) {
+                console.error("Error note fatching:", err);
+            }
+        }
         handleSearchedNote();
-    },[searchedTitle])
+    },[searchedTitle, userId]);
+    console.log("searched note ::::===",searchedNote);
 
     const handleAddNote = () => {
         if (newNote.title && newNote.text) {
@@ -114,7 +114,67 @@ export const NotesList: FC<Props> = ({
                     <FaPlus className="text-xl mx-2"/>
                     <span className="text-xl">Add New</span>
                 </div>
-                { notes.map((note) => (
+                {searchedNote != null && searchedTitle != null && (
+                    <div
+                        className="flex flex-col justify-between p-4 rounded shadow-md cursor-pointer"
+                        style={ { backgroundColor: searchedNote.backgroundColor, color: searchedNote.textColor } }
+                    >
+                        <div className="" onClick={ () => handleNoteClick(searchedNote) }>
+                            <h3 className="text-xl font-bold">{ searchedNote.title }</h3>
+                            <p className="text-sm italic">{ searchedNote.label }</p>
+                            <p className="mt-2">{ searchedNote.text }</p>
+                        </div>
+                        {showBackgrounds && searchedNote._id === bgClickedId && (
+                            <div className="flex items-center justify-around">
+                                <span className="text-2xl text-rose-700">Bg:</span>
+                                <div className="border rounded-full w-8 h-8 bg-gray-800 cursor-pointer" onClick={()=>onUpdate(searchedNote._id as string | number, undefined,"black")}></div>
+                                <div className="border rounded-full w-8 h-8 bg-white cursor-pointer"onClick={()=>onUpdate(searchedNote._id as string | number, undefined,"white")}></div>
+                                <div className="border rounded-full w-8 h-8 bg-pink-500 cursor-pointer"onClick={()=>onUpdate(searchedNote._id as string | number, undefined,"pink")}></div>
+                                <div className="border rounded-full w-8 h-8 bg-green-500 cursor-pointer"onClick={()=>onUpdate(searchedNote._id as string | number, undefined,"green")}></div>
+                                <CgClose className="text-xl" onClick={()=>setShowBackgrounds(false)}/>
+                            </div>
+                        )}
+                        {showTextColors && searchedNote._id === textColorClickedId && (
+                            <div className="flex items-center justify-around">
+                            <span className="text-xl text-green-900">Color:</span>
+                            <div className="border rounded-full w-8 h-8 bg-gray-800 cursor-pointer" onClick={()=>onUpdate(searchedNote._id as string | number, undefined, undefined,"black")}></div>
+                            <div className="border rounded-full w-8 h-8 bg-white cursor-pointer"onClick={()=>onUpdate(searchedNote._id as string | number, undefined, undefined,"white")}></div>
+                            <div className="border rounded-full w-8 h-8 bg-pink-500 cursor-pointer"onClick={()=>onUpdate(searchedNote._id as string | number, undefined, undefined,"pink")}></div>
+                            <div className="border rounded-full w-8 h-8 bg-green-500 cursor-pointer"onClick={()=>onUpdate(searchedNote._id as string | number, undefined, undefined,"green")}></div>
+                            <CgClose className="text-xl" onClick={()=>setShowTextColors(false)}/>
+                        </div>
+                        )}
+                        <div className="mt-4 flex justify-around text-xl">
+                            <button
+                                onClick={ () => onDelete(searchedNote._id as string | number) }
+                                className="flex items-center space-x-1 text-red-500"
+                            >
+                                <FaTrashAlt />
+                            </button>
+                            <button
+                                onClick={ () => {
+                                    setShowBackgrounds(!showBackgrounds)
+                                    setBgClickedId(searchedNote._id)
+                                    onUpdate(searchedNote._id as string | number)
+                                }}
+                                className="flex items-center space-x-1 text-green-500"
+                            >
+                                <IoIosColorPalette />
+                            </button>
+                            <button
+                                onClick={ () => {
+                                    setShowTextColors(!showTextColors)
+                                    setTextColorClickedId(searchedNote._id)
+                                    onUpdate(searchedNote._id as string | number)
+                                }}
+                                className="flex items-center space-x-1 text-yellow-500"
+                            >
+                                <GoPencil />
+                            </button>
+                        </div>
+                    </div>
+                )}
+                {searchedNote == null && searchedTitle == null && notes.map((note) => (
                     <div
                         key={ note._id }
                         className="flex flex-col justify-between p-4 rounded shadow-md cursor-pointer"
