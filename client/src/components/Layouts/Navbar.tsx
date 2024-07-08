@@ -98,7 +98,7 @@ export const Navbar: FC<Props> = () => {
                                     <div
                                         className="flex items-center text-xl py-2 pr-4 pl-3 text-white cursor-pointer"
                                         onClick={()=>{
-                                            handleLogout 
+                                            handleLogout()
                                             closeMobileMenu
                                         }}
                                     >

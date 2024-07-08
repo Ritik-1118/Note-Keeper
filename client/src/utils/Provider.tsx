@@ -37,6 +37,7 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
     };
 
     const logout = () => {
+        console.log("logout called")
         setIsLoggedIn(false);
         setUserId(null);
     };
