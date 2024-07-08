@@ -45,7 +45,7 @@ export const Register: React.FC<Props> = () => {
 
         try {
             // console.log({username,email,password})
-            const response = await fetch(`http://localhost:5000/api/users/signup`, {
+            const response = await fetch(`https://note-keeper-7bu3.onrender.com/api/users/signup`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",

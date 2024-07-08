@@ -24,7 +24,7 @@ export const Notes: React.FC<Props> = () => {
 
     const handleAddNote = async (note: Note) => {
         try {
-            const response = await fetch(`http://localhost:5000/api/notes/${userId}`, {
+            const response = await fetch(`https://note-keeper-7bu3.onrender.com/api/notes/${userId}`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -44,7 +44,7 @@ export const Notes: React.FC<Props> = () => {
 
     const handleFatchNotes = async () => {
         try {
-            const response = await fetch(`http://localhost:5000/api/notes/${userId}`, {
+            const response = await fetch(`https://note-keeper-7bu3.onrender.com/api/notes/${userId}`, {
                 method: "GET",
             });
     
@@ -63,7 +63,7 @@ export const Notes: React.FC<Props> = () => {
 
     const handleDelete = async (id: number | string ) => {
         try {
-            const response = await fetch(`http://localhost:5000/api/notes/${userId}/${id}`, {
+            const response = await fetch(`https://note-keeper-7bu3.onrender.com/api/notes/${userId}/${id}`, {
                 method: "DELETE",
             });
     
@@ -79,7 +79,7 @@ export const Notes: React.FC<Props> = () => {
     const handleUpdate= async (id?: number | string, note?: Note, bg?: string, textColor?: string)=>{
         try {
             if( id && note ){
-                const response = await fetch(`http://localhost:5000/api/notes/${userId}/${id}`, {
+                const response = await fetch(`https://note-keeper-7bu3.onrender.com/api/notes/${userId}/${id}`, {
                     method: "PUT",
                     headers: {
                         "Content-Type": "application/json",
@@ -96,7 +96,7 @@ export const Notes: React.FC<Props> = () => {
                 }
             }
             if(id && bg){
-                const response = await fetch(`http://localhost:5000/api/notes/${userId}/${id}`, {
+                const response = await fetch(`https://note-keeper-7bu3.onrender.com/api/notes/${userId}/${id}`, {
                     method: "PUT",
                     headers: {
                         "Content-Type": "application/json",
@@ -110,7 +110,7 @@ export const Notes: React.FC<Props> = () => {
                 }
             }
             if(id && textColor){
-                const response = await fetch(`http://localhost:5000/api/notes/${userId}/${id}`, {
+                const response = await fetch(`https://note-keeper-7bu3.onrender.com/api/notes/${userId}/${id}`, {
                     method: "PUT",
                     headers: {
                         "Content-Type": "application/json",

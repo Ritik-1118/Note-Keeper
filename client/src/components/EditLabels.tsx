@@ -22,7 +22,7 @@ export const EditLabels: FC<Props> = () => {
 
     const handleFatchNotes = async () => {
         try {
-            const response = await fetch(`http://localhost:5000/api/notes/getAllNotesByLabel/${userId}`, {
+            const response = await fetch(`https://note-keeper-7bu3.onrender.com/api/notes/getAllNotesByLabel/${userId}`, {
                 method: "GET",
                 headers:{
                     "Content-Type":"application/json",
@@ -44,7 +44,7 @@ export const EditLabels: FC<Props> = () => {
 
     const handleDelete = async (id: number | string ) => {
         try {
-            const response = await fetch(`http://localhost:5000/api/notes/${userId}/${id}`, {
+            const response = await fetch(`https://note-keeper-7bu3.onrender.com/api/notes/${userId}/${id}`, {
                 method: "DELETE",
             });
     

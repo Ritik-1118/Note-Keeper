@@ -125,7 +125,7 @@ export const createNote: RequestHandler< CreateNoteBody> = async (req, res, next
 };
 
 interface UpdateNoteParams {
-    userId: any;
+    userId: any,
     noteId: string | number,
 }
 interface UpdateNoteBody {
@@ -302,14 +302,14 @@ export const addLabelInNote: RequestHandler = async (req, res, next) => {
     const authenticatedUserId = req.session.userId;
     const noteId = req.body.noteId;
     const label = req.body.label;
-    console.log("######################",noteId)
+    // console.log("######################",noteId)
     try {
         // Find the user by userId
         const user = await UserModel.findById(authenticatedUserId);
         if (!user) {
             return res.status(404).json({ message: 'User not found' });
         }
-        console.log("######################",noteId)
+        // console.log("######################",noteId)
         const updateResult = await UserModel.findOneAndUpdate(
             { _id: authenticatedUserId, "labels.name": label },
             { $addToSet: { "labels.$.noteIds": noteId } },
@@ -330,7 +330,7 @@ export const addLabelInNote: RequestHandler = async (req, res, next) => {
     }
 }
 
-export const getAllNotesByLabel: RequestHandler  = async (req, res, next) => {
+export const getAllNotesByLabel: RequestHandler  = async (req, res) => {
     try {
         const userId = req.params.userId;
 
