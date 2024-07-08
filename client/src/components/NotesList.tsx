@@ -13,10 +13,10 @@ interface Note {
     backgroundColor: string;
     textColor: string;
 }
-
+// (note: Note) => Promise<void>
 interface Props {
     notes: Note[];
-    onAddNote: (note: Note) => void;
+    onAddNote: (note: Note) => Promise<void>
     onDelete: (_id: string | number) => void;
     onUpdate: ( _id?: number | string, note?: Note, bg?:string, textColor?:string) => void;
 }

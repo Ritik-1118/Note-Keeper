@@ -59,7 +59,7 @@ export const Notes: React.FC<Props> = () => {
     }
     useEffect(()=>{
         handleFatchNotes()
-    },[])
+    },[userId])
 
     const handleDelete = async (id: number | string ) => {
         try {
