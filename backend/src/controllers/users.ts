@@ -49,7 +49,7 @@ export const signUp: RequestHandler<unknown, unknown, SignUpBody, unknown> = asy
             password: passwordHashed,
         });
 
-        console.log(newUser._id)
+        // console.log(newUser._id)
         req.session.userId = newUser._id;
         req.session.email = newUser.email;
         res.status(201).json({userId:newUser._id,user:newUser});
@@ -71,8 +71,7 @@ export const login: RequestHandler<unknown, unknown, LoginBody, unknown> = async
         if (!email || !password) {
             throw createHttpError(400, "Parameters missing");
         }
-        
-        const user = await UserModel.findOne({ email }).select("+password +username").exec();
+        const user = await UserModel.findOne({ email }).select("+password +username +email").exec();
 
         if (!user) {
             throw createHttpError(401, "Invalid credentials");
@@ -86,6 +85,7 @@ export const login: RequestHandler<unknown, unknown, LoginBody, unknown> = async
 
         req.session.userId = user._id;
         req.session.email = user.email;
+        // console.log("**************",user)
         res.status(201).json({userId:user._id,user:user});
     } catch (error) {
         next(error);

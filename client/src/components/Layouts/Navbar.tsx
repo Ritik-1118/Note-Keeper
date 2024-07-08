@@ -9,10 +9,12 @@ import {toast} from "react-toastify";
 interface Props {}
 
 export const Navbar: FC<Props> = () => {
+    const navigate = useNavigate();
+    const [showProfile, setShowProfile] = useState(false);
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
     const [ searchText, setSearchText ] = useState<string>("");
-    const navigate = useNavigate();
-    const { isLoggedIn, logout, searchedText } = useAuth();
+    const { isLoggedIn, logout, searchedText, username, email } = useAuth();
+
 
     const handleSearchInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         const { value } = e.target;
@@ -100,12 +102,23 @@ export const Navbar: FC<Props> = () => {
                                     to="/"
                                     className="flex items-center py-2 pr-4 pl-3 text-white text-xl "
                                     aria-current="page"
-                                    onClick={closeMobileMenu}
+                                    onClick={()=>{
+                                        closeMobileMenu()
+                                        setShowProfile(!showProfile)
+                                    }}
                                 >
                                     <BiUser className="text-center text-xl mx-2" />
                                     Profile
                                 </NavLink>
                             </li>
+                            {showProfile && (
+                                <div className="fixed mt-14 z-30 shadow-xl border-2 border-gray-500 rounded-md bg-gray-500">
+                                    <div className="flex flex-col items-start">
+                                        <span className="shadow-lg px-4 py-4 w-full text-xl font-serif text-white">username: {username}</span>
+                                        <span className="shadow-lg px-4 py-4 w-full text-xl font-serif text-white">Email: {email}</span>
+                                    </div>
+                                </div>
+                            )}
                             {isLoggedIn ? (
                                 <li>
                                     <div

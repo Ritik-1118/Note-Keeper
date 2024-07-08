@@ -12,7 +12,7 @@ export const getNotes: RequestHandler = async (req, res, next) => {
         assertIsDefined(UserId);
 
         const notes = await NoteModel.find({ userId: UserId }).exec();
-        console.log("All notes:- ",notes)
+        // console.log("All notes:- ",notes)
         res.status(200).json(notes);
     } catch (error) {
         next(error);
@@ -259,7 +259,7 @@ export const createNoteInLabel: RequestHandler = async (req, res, next) => {
                 { new: true }
             );
         }
-        console.log('User after saving:', updateResult);
+        // console.log('User after saving:', updateResult);
         res.status(200).json({ message: 'Note created and added to label successfully', note: newNote });
     } catch (error) {
         next(error);

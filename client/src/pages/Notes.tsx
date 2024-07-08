@@ -39,7 +39,7 @@ export const Notes: React.FC<Props> = () => {
         } catch (err) {
             console.error("Error in adding the note:", err);
         }
-        console.log("New note is:- ",note)
+        // console.log("New note is:- ",note)
     };
 
     const handleFatchNotes = async () => {
@@ -51,7 +51,7 @@ export const Notes: React.FC<Props> = () => {
             if (response.ok) {
                 const allNotes = await response.json()
                 setNotes(allNotes)
-                console.log(allNotes);
+                // console.log(allNotes);
             }
         } catch (err) {
             console.error("Error note fatching:", err);

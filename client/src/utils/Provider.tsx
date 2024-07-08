@@ -3,8 +3,10 @@ import { createContext, useContext, useState, useEffect, ReactNode } from 'react
 interface AuthContextType {
     isLoggedIn: boolean;
     userId: string | null;
+    username:string | null;
+    email:string | null;
     searchedTitle?: string | null;
-    login: (userId: string) => void;
+    login: (userId: string, name: string, email: string) => void;
     logout: () => void;
     searchedText: (text: string) => void;
 }
@@ -20,6 +22,13 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
     const [userId, setUserId] = useState<string | null>(() => {
         return localStorage.getItem('userId');
     });
+    const [username, setUsername] = useState<string | null>(() => {
+        return localStorage.getItem('username');
+    });
+    const [email, setEmail] = useState<string | null>(() => {
+        return localStorage.getItem('email');
+    });
+
     const [searchedTitle, setSearchedTitle] = useState<string | null>(null);
 
     useEffect(() => {
@@ -33,14 +42,30 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
             localStorage.removeItem('userId');
         }
     }, [userId]);
+    useEffect(() => {
+        if (username) {
+            localStorage.setItem('username', username);
+        } else {
+            localStorage.removeItem('username');
+        }
+    }, [username]);
+    useEffect(() => {
+        if (email) {
+            localStorage.setItem('email', email);
+        } else {
+            localStorage.removeItem('email');
+        }
+    }, [email]);
 
-    const login = (id: string) => {
+    const login = (id: string, name: string, email: string) => {
         setIsLoggedIn(true);
         setUserId(id);
+        setUsername(name);
+        setEmail(email)
     };
 
     const logout = () => {
-        console.log("logout called")
+        // console.log("logout called")
         setIsLoggedIn(false);
         setUserId(null);
     };
@@ -50,7 +75,7 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
     }
 
     return (
-        <AuthContext.Provider value={{ isLoggedIn, userId, login, logout, searchedText, searchedTitle }}>
+        <AuthContext.Provider value={{ isLoggedIn, userId, username, email, login, logout, searchedText, searchedTitle }}>
             {children}
         </AuthContext.Provider>
     );

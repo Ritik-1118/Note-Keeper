@@ -52,8 +52,7 @@ export const Login: React.FC<Props> = () => {
 
             if (response.ok) {
                 const userData = await response.json()
-                console.log(userData);
-                login(userData.userId);
+                login(userData.userId, userData.user.username, userData.user.email);
                 toast.success("Login Successfully!");
                 navigate('/');
 
