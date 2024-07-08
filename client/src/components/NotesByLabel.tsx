@@ -1,4 +1,4 @@
-import React, { FC, } from "react";
+import { FC, } from "react";
 import {  FaTrashAlt } from "react-icons/fa";
 
 interface Note {

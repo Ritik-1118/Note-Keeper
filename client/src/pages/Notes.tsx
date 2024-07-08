@@ -5,7 +5,7 @@ import { useAuth } from "../utils/Provider";
 import { toast } from "react-toastify";
 
 interface Note {
-    id: number | string;
+    _id?: number | string;
     title: string;
     label: string;
     text: string;
@@ -76,7 +76,7 @@ export const Notes: React.FC<Props> = () => {
         }
     };
     
-    const handleUpdate= async (id: number | string, note?: Note, bg?: string, textColor?: string)=>{
+    const handleUpdate= async (id?: number | string, note?: Note, bg?: string, textColor?: string)=>{
         try {
             if( id && note ){
                 const response = await fetch(`http://localhost:5000/api/notes/${userId}/${id}`, {
