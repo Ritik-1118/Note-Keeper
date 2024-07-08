@@ -10,8 +10,17 @@ interface Props {}
 
 export const Navbar: FC<Props> = () => {
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+    const [ searchText, setSearchText ] = useState<string>("");
     const navigate = useNavigate();
-    const { isLoggedIn, logout } = useAuth();
+    const { isLoggedIn, logout, searchedText } = useAuth();
+
+    const handleSearchInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+        const { value } = e.target;
+        setSearchText(value);
+    };
+    const handleSearchClick = async () =>{
+        searchedText(searchText);
+    }
 
     const toggleMobileMenu = () => {
         setIsMobileMenuOpen(!isMobileMenuOpen);
@@ -41,9 +50,10 @@ export const Navbar: FC<Props> = () => {
                             type="search"
                             name="search"
                             id="search"
+                            onChange={ handleSearchInputChange }
                             className="px-4 py-2 rounded-md bg-transparent border-none w-full"
                         />
-                        <IoIosSearch className="text-2xl mx-2 cursor-pointer" />
+                        <IoIosSearch className="text-2xl mx-2 cursor-pointer" onClick={()=> handleSearchClick()}/>
                     </div>
                     <div className="flex">
                         <button

@@ -1,9 +1,10 @@
-import React, { FC, useState } from "react";
+import React, { FC, useEffect, useState } from "react";
 import { CgClose } from "react-icons/cg";
 import { FaTrashAlt, FaPlus } from "react-icons/fa";
 import { GoPencil } from "react-icons/go";
 import { IoIosColorPalette } from "react-icons/io";
 import { MdOutlineCloseFullscreen } from "react-icons/md";
+import { useAuth } from "../utils/Provider";
 
 interface Note {
     _id?: number | string;
@@ -27,6 +28,8 @@ export const NotesList: FC<Props> = ({
     onDelete,
     onUpdate,
 }) => {
+    const {userId, searchedTitle} = useAuth();
+    // const {searchedNote, setSearchedNote} = useState(null);
     const [selectedNote, setSelectedNote] = useState<Note | null>(null);
     const [addNote, setAddNote] = useState(false);
     const [showBackgrounds,setShowBackgrounds] = useState<boolean>(false);
@@ -50,14 +53,32 @@ export const NotesList: FC<Props> = ({
         });
     };
 
+    const handleSearchedNote = async () =>{
+        console.log(searchedTitle)
+        try {
+            const response = await fetch(`https://note-keeper-7bu3.onrender.com/api/notes/searchByTitle/${userId}/${searchedTitle}`, {
+                method: "GET",
+            });
+    
+            if (response.ok) {
+                const notes = await response.json()
+                // setSearchedNote(notes)
+                console.log("searched note ::::===",notes);
+            }
+        } catch (err) {
+            console.error("Error note fatching:", err);
+        }
+    }
+    useEffect(()=>{
+        handleSearchedNote();
+    },[searchedTitle])
+
     const handleAddNote = () => {
         if (newNote.title && newNote.text) {
             onAddNote({ ...newNote, _id: Date.now() });
             setAddNote(false);
         }
     };
-
-
     const handleNoteClick = (note: Note) => {
         setSelectedNote(note);
     };

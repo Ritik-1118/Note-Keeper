@@ -47,15 +47,11 @@ export const getNoteById: RequestHandler = async (req, res, next) => {
 };
 
 export const searchByTitle: RequestHandler = async (req, res, next) => {
-    const authenticatedUserId = req.session.userId;
-    const noteId = req.params.noteId;
-    const title = req.body.title;
+    const authenticatedUserId = req.params.userId;
+    const title = req.params.title;
     try {
         assertIsDefined(authenticatedUserId);
 
-        if (!mongoose.isValidObjectId(noteId)) {
-            throw createHttpError(400, "Invalid note id");
-        }
         const note = await NoteModel.findOne({ title, userId: authenticatedUserId }).exec();
 
         if (!note) {
