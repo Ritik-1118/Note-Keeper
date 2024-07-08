@@ -97,29 +97,28 @@ export const Navbar: FC<Props> = () => {
                         id="navbar-sticky"
                     >
                         <ul className="flex flex-col md:flex-row md:space-x-8 md:mr-9 md:mt-0 md:text-sm md:font-medium">
-                            <li>
-                                <NavLink
-                                    to="/"
-                                    className="flex items-center py-2 pr-4 pl-3 text-white text-xl "
-                                    aria-current="page"
-                                    onClick={()=>{
-                                        closeMobileMenu()
-                                        setShowProfile(!showProfile)
-                                    }}
-                                >
-                                    <BiUser className="text-center text-xl mx-2" />
-                                    Profile
-                                </NavLink>
-                            </li>
-                            {showProfile && (
-                                <div className="fixed mt-14 z-30 shadow-xl border-2 border-gray-500 rounded-md bg-gray-500">
-                                    <div className="flex flex-col items-start">
-                                        <span className="shadow-lg px-4 py-4 w-full text-xl font-serif text-white">username: {username}</span>
-                                        <span className="shadow-lg px-4 py-4 w-full text-xl font-serif text-white">Email: {email}</span>
+                            {isLoggedIn ? (<>
+                                <li>
+                                    <div
+                                        className="flex items-center py-2 pr-4 pl-3 text-white text-xl cursor-pointer"
+                                        aria-current="page"
+                                        onClick={()=>{
+                                            closeMobileMenu()
+                                            setShowProfile(!showProfile)
+                                        }}
+                                    >
+                                        <BiUser className="text-center text-xl mx-2" />
+                                        Profile
                                     </div>
-                                </div>
-                            )}
-                            {isLoggedIn ? (
+                                </li>
+                                {showProfile && (
+                                    <div className="fixed mt-14 z-30 shadow-xl border-2 border-gray-500 rounded-md bg-gray-500">
+                                        <div className="flex flex-col items-start">
+                                            <span className="shadow-lg px-4 py-4 w-full text-xl font-serif text-white">username: {username}</span>
+                                            <span className="shadow-lg px-4 py-4 w-full text-xl font-serif text-white">Email: {email}</span>
+                                        </div>
+                                    </div>
+                                )}
                                 <li>
                                     <div
                                         className="flex items-center text-xl py-2 pr-4 pl-3 text-white cursor-pointer"
@@ -132,6 +131,7 @@ export const Navbar: FC<Props> = () => {
                                         Logout
                                     </div>
                                 </li>
+                            </>
                             ) : (
                                 <>
                                     <li>
