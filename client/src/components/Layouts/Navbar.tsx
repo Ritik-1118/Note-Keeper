@@ -14,7 +14,7 @@ export const Navbar: FC<Props> = () => {
   const navigate = useNavigate();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [searchText, setSearchText] = useState<string>("");
-  const { isLoggedIn, logout, searchedText, username, email } = useAuth();
+  const { isLoggedIn, logout, searchedText } = useAuth();
 
 
   const handleSearchInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
