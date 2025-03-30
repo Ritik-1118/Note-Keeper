@@ -75,7 +75,16 @@ export const NotesList: FC<Props> = ({
 
     const handleAddNote = () => {
         if (newNote.title && newNote.text) {
-            onAddNote({ ...newNote, _id: Date.now() });
+            onAddNote({ ...newNote, _id: Date.now() }).then(() => {
+                setNewNote({
+                    _id: undefined,
+                    title: "",
+                    label: "",
+                    text: "",
+                    backgroundColor: "#fff",
+                    textColor: "#000",
+                });
+            })
             setAddNote(false);
         }
     };
@@ -128,7 +137,7 @@ export const NotesList: FC<Props> = ({
                             <div className="flex items-center justify-around">
                                 <span className="text-2xl text-rose-700">Bg:</span>
                                 <div className="border rounded-full w-8 h-8 bg-gray-800 cursor-pointer" onClick={()=>onUpdate(searchedNote._id as string | number, undefined,"black")}></div>
-                                <div className="border rounded-full w-8 h-8 bg-white cursor-pointer"onClick={()=>onUpdate(searchedNote._id as string | number, undefined,"white")}></div>
+                                <div className="border border-black rounded-full w-8 h-8 bg-white cursor-pointer"onClick={()=>onUpdate(searchedNote._id as string | number, undefined,"white")}></div>
                                 <div className="border rounded-full w-8 h-8 bg-pink-500 cursor-pointer"onClick={()=>onUpdate(searchedNote._id as string | number, undefined,"pink")}></div>
                                 <div className="border rounded-full w-8 h-8 bg-green-500 cursor-pointer"onClick={()=>onUpdate(searchedNote._id as string | number, undefined,"green")}></div>
                                 <CgClose className="text-xl" onClick={()=>setShowBackgrounds(false)}/>
@@ -138,7 +147,7 @@ export const NotesList: FC<Props> = ({
                             <div className="flex items-center justify-around">
                             <span className="text-xl text-green-900">Color:</span>
                             <div className="border rounded-full w-8 h-8 bg-gray-800 cursor-pointer" onClick={()=>onUpdate(searchedNote._id as string | number, undefined, undefined,"black")}></div>
-                            <div className="border rounded-full w-8 h-8 bg-white cursor-pointer"onClick={()=>onUpdate(searchedNote._id as string | number, undefined, undefined,"white")}></div>
+                            <div className="border border-red-500 rounded-full w-8 h-8 bg-white cursor-pointer"onClick={()=>onUpdate(searchedNote._id as string | number, undefined, undefined,"white")}></div>
                             <div className="border rounded-full w-8 h-8 bg-pink-500 cursor-pointer"onClick={()=>onUpdate(searchedNote._id as string | number, undefined, undefined,"pink")}></div>
                             <div className="border rounded-full w-8 h-8 bg-green-500 cursor-pointer"onClick={()=>onUpdate(searchedNote._id as string | number, undefined, undefined,"green")}></div>
                             <CgClose className="text-xl" onClick={()=>setShowTextColors(false)}/>
@@ -239,7 +248,7 @@ export const NotesList: FC<Props> = ({
             </div>
             {addNote && (
                 <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-                    <div className="bg-white p-4 rounded shadow-lg w-1/3">
+                    <div className="bg-white p-4 rounded shadow-lg md:w-1/3">
                         <div className="flex items-center justify-between">
                             <h2 className="text-2xl font-bold mb-4">Add New Note</h2>
                             <span 
